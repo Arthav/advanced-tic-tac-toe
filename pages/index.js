@@ -7,6 +7,7 @@ const TicTacToe = () => {
   const [resetKey, setResetKey] = useState(0);
   const [canBePlayedNum, setCanBePlayedNum] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
 
   const handleCanBePlayed = (value) => {
     if (board[value] !== null) {
@@ -66,6 +67,10 @@ const TicTacToe = () => {
     setIsModalOpen(!isModalOpen);
   };
 
+  const toggleAboutModal = () => {
+    setIsAboutModalOpen(!isAboutModalOpen);
+  };
+
   const winner = calculateWinner(board);
   const status = winner
     ? `Winner: ${winner}`
@@ -100,6 +105,9 @@ const TicTacToe = () => {
       </button>
       <button className="rules-button" onClick={toggleModal}>
         Rules
+      </button>
+      <button className="about-button" onClick={toggleAboutModal}>
+        About Me
       </button>
       {isModalOpen && (
         <div className="modal">
@@ -196,15 +204,43 @@ const TicTacToe = () => {
           </div>
         </div>
       )}
+      {isAboutModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={toggleAboutModal}>
+              &times;
+            </span>
+            <h2>About Me</h2>
+            <p>
+              Hi, I'm <strong>Christian Bonafena</strong>, a passionate{" "}
+              <strong>Full Stack Engineer</strong>.
+            </p>
+            <p>
+              You can reach me on Telegram:{" "}
+              <a
+                href="https://t.me/cbonz"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                @cbonz
+              </a>
+              .
+            </p>
+            <p>
+              This game's idea is inspired by <strong>Vsauce</strong>
+            </p>
+          </div>
+        </div>
+      )}
       <style jsx>{`
         html,
         body {
           margin: 0;
           padding: 0;
-          overflow: hidden;
           width: 100%;
           height: 100%;
-          box-sizing: border-box; /* Ensure padding and borders are included in dimensions */
+          overflow: hidden; /* Prevent scrolling if unnecessary */
+          box-sizing: border-box;
         }
 
         *,
@@ -266,9 +302,26 @@ const TicTacToe = () => {
           transform: scale(1.1);
         }
         .rules-button {
+          position: absolute;
+          top: 0;
+          left: 30px;
+
           margin-top: 10px;
           padding: 10px 20px;
           background-color: #444;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+        .about-button {
+          position: absolute;
+          top: 0;
+          right: 30px;
+
+          margin-top: 10px;
+          padding: 10px 20px;
+          background-color: #28a745;
           color: white;
           border: none;
           border-radius: 5px;
