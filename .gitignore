@@ -40,3 +40,40 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
+*.next/
+*.nextd/
+*.nyc_output
+.next/
+
+
+# Build directories
+build/
+dist/
+
+# Temporary files
+*.tmp
+*.swp
+
+# Coverage reports
+coverage/
+
+# Local environment configuration
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Parcel cache
+.cache/
+
+# SASS cache
+.sass-cache/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Yarn Integrity
+.yarn-integrity
+
+# npm lock file
+yarn.lock
