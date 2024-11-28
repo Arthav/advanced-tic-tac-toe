@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-const MiniTicTacToe = ({ onReset, onClick }) => {
+const MiniTicTacToe = ({ onReset, onClick, onWin, canBePlayed }) => {
   const [board, setBoard] = useState(Array(9).fill(null));
   const [isXNext, setIsXNext] = useState(true);
 
@@ -14,21 +14,37 @@ const MiniTicTacToe = ({ onReset, onClick }) => {
   const handleClick = (index) => {
     const newBoard = [...board];
     if (calculateWinner(newBoard) || newBoard[index]) return;
-    newBoard[index] = isXNext ? 'X' : 'O';
+    newBoard[index] = isXNext ? "X" : "O";
     setBoard(newBoard);
     setIsXNext(!isXNext);
-    onClick(index); // Notify the main board of the move
+    onClick(index);
+
+    const winner = calculateWinner(newBoard);
+    console.log("Winner calculated:", winner);
+    if (winner) {
+      console.log("Calling onWin with winner:", winner);
+      onWin(winner);
+    }
   };
 
   const calculateWinner = (squares) => {
     const lines = [
-      [0, 1, 2], [3, 4, 5], [6, 7, 8],
-      [0, 3, 6], [1, 4, 7], [2, 5, 8],
-      [0, 4, 8], [2, 4, 6]
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
     ];
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i];
-      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      if (
+        squares[a] &&
+        squares[a] === squares[b] &&
+        squares[a] === squares[c]
+      ) {
         return squares[a];
       }
     }
@@ -40,7 +56,12 @@ const MiniTicTacToe = ({ onReset, onClick }) => {
   return (
     <div className="mini-board">
       {board.map((value, index) => (
-        <button key={index} className="mini-square" onClick={() => handleClick(index)}>
+        <button
+          key={index}
+          className="mini-square"
+          disabled={!canBePlayed}
+          onClick={() => handleClick(index)}
+        >
           {value}
         </button>
       ))}
