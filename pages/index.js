@@ -19,7 +19,6 @@ const TicTacToe = () => {
   };
 
   const canBePlayed = (index) => {
-    return true
     if(winner) {
       return false;
     }
