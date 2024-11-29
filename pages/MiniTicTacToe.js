@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-const MiniTicTacToe = ({ onReset, onClick, onWin, canBePlayed }) => {
+const MiniTicTacToe = ({ onReset, onClick, onWin, canBePlayed, isXNext, setIsXNext }) => {
   const [board, setBoard] = useState(Array(9).fill(null));
-  const [isXNext, setIsXNext] = useState(true);
 
   useEffect(() => {
     if (onReset) {

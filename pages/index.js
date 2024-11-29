@@ -1,4 +1,5 @@
 import { useState } from "react";
+import confetti from "canvas-confetti";
 import MiniTicTacToe from "./MiniTicTacToe";
 
 const TicTacToe = () => {
@@ -71,7 +72,24 @@ const TicTacToe = () => {
     setIsAboutModalOpen(!isAboutModalOpen);
   };
 
+  const playWinSound = () => {
+    const audio = new Audio("/win-sound.mp3");
+    audio.play();
+  };
+
+  const triggerConfetti = () => {
+    confetti({
+      particleCount: 200,
+      spread: 70,
+      origin: { y: 0.6 },
+    });
+  };
+
   const winner = calculateWinner(board);
+  if (winner) {
+    triggerConfetti();
+    playWinSound();
+  }
   const status = winner
     ? `Winner: ${winner}`
     : `Next player: ${isXNext ? "X" : "O"}`;
@@ -95,6 +113,8 @@ const TicTacToe = () => {
                 onClick={(miniIndex) => handleMiniBoardClick(miniIndex, index)}
                 onWin={(winner) => handleMiniBoardWin(winner, index)}
                 canBePlayed={canBePlayed(index)}
+                isXNext={isXNext}
+                setIsXNext={setIsXNext}
               />
             )}
           </div>
@@ -141,12 +161,17 @@ const TicTacToe = () => {
                 <strong>Gameplay:</strong>
                 <ul>
                   <li>
-                    Players take turns playing as <strong>X</strong> or{" "}
-                    <strong>O</strong>.
+                    <p>
+                      Players take turns playing as <strong>X</strong> or{" "}
+                      <strong>O</strong>.
+                    </p>
                   </li>
                   <li>
-                    On your turn, play in the active <strong>mini board</strong>
-                    .
+                    <p>
+                      {" "}
+                      On your turn, play in the active{" "}
+                      <strong>mini board</strong>.
+                    </p>
                   </li>
                 </ul>
               </li>
