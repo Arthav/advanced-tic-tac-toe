@@ -19,6 +19,7 @@ const TicTacToe = () => {
   };
 
   const canBePlayed = (index) => {
+    return true
     if(winner) {
       return false;
     }
@@ -43,10 +44,10 @@ const TicTacToe = () => {
         squares[a] === squares[b] &&
         squares[a] === squares[c]
       ) {
-        return squares[a];
+        return { winner: squares[a], line: [a, b, c] };
       }
     }
-    return null;
+    return { winner: null, line: [] };
   };
 
   const resetGame = () => {
@@ -94,7 +95,9 @@ const TicTacToe = () => {
     });
   };
 
-  const winner = calculateWinner(board);
+  const winnerData = calculateWinner(board);
+  const winner = winnerData.winner;
+  const winningLine = winnerData.line;
   if (winner) {
     triggerConfetti();
     playWinSound();
@@ -110,7 +113,7 @@ const TicTacToe = () => {
         {board.map((value, index) => (
           <div
             key={index}
-            className={`square ${canBePlayed(index) ? "highlight" : ""}`}
+            className={`square ${canBePlayed(index) ? "highlight" : ""} ${winningLine.includes(index) ? "winner-tile" : ""}`}
           >
             {value !== null ? (
               <span style={{ fontSize: "3rem" }}>
@@ -319,6 +322,40 @@ const TicTacToe = () => {
         }
         .highlight {
           background-color: yellow;
+        }
+        .winner-tile {
+          background-color: lightgreen;
+          animation: shake 0.5s infinite alternate;
+        }
+
+        @keyframes shake {
+          0% { transform: translateX(0); }
+          25% { transform: translateX(-5px); }
+          50% { transform: translateX(5px); }
+          75% { transform: translateX(-5px); }
+          100% { transform: translateX(0); }
+        }
+        .strike {
+          position: relative;
+          overflow: hidden;
+        }
+        .strike::after {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 0;
+          width: 100%;
+          height: 5px;
+          background-color: red;
+          transform: scaleX(0);
+          transform-origin: left;
+          animation: strike-animation 0.5s forwards;
+        }
+
+        @keyframes strike-animation {
+          to {
+            transform: scaleX(1);
+          }
         }
         .reset-button {
           margin-top: 20px;
