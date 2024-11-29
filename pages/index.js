@@ -19,6 +19,9 @@ const TicTacToe = () => {
   };
 
   const canBePlayed = (index) => {
+    if(winner) {
+      return false;
+    }
     return canBePlayedNum === index || canBePlayedNum === null;
   };
 
@@ -53,7 +56,13 @@ const TicTacToe = () => {
     setCanBePlayedNum(null);
   };
 
+  const playClickSound = () => {
+    const audio = new Audio("/click.mp3");
+    audio.play();
+  };
+
   const handleMiniBoardClick = (index) => {
+    playClickSound();
     handleCanBePlayed(index);
     setIsXNext(!isXNext);
   };
@@ -73,7 +82,7 @@ const TicTacToe = () => {
   };
 
   const playWinSound = () => {
-    const audio = new Audio("/win-sound.mp3");
+    const audio = new Audio("/game-finish.mp3");
     audio.play();
   };
 
@@ -121,7 +130,7 @@ const TicTacToe = () => {
         ))}
       </div>
       <button className="reset-button" onClick={resetGame}>
-        Reset Game
+        {winner ? "Play Again" : "Reset"}
       </button>
       <button className="rules-button" onClick={toggleModal}>
         Rules
